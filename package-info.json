@@ -1,0 +1,24 @@
+{
+  "name": "AI Productivity Platform",
+  "version": "1.0.0",
+  "description": "Enterprise-grade SaaS frontend for AI Productivity and Smart Customer Collaboration",
+  "author": "Your Team",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "saas",
+    "dashboard",
+    "collaboration",
+    "productivity",
+    "ai"
+  ],
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
