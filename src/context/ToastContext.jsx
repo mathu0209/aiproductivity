@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useCallback } from 'react'
-import { ToastContainer } from '@/components/ui/Toast'
 
 const ToastContext = createContext()
 
@@ -8,7 +7,15 @@ export const ToastProvider = ({ children }) => {
 
   const addToast = useCallback((message, type = 'info', duration = 3000) => {
     const id = Date.now()
-    setToasts(prev => [...prev, { id, message, type, duration }])
+    const toast = { id, message, type }
+    setToasts(prev => [...prev, toast])
+
+    if (duration > 0) {
+      setTimeout(() => {
+        removeToast(id)
+      }, duration)
+    }
+
     return id
   }, [])
 
@@ -19,6 +26,7 @@ export const ToastProvider = ({ children }) => {
   const success = useCallback((message, duration) => addToast(message, 'success', duration), [addToast])
   const error = useCallback((message, duration) => addToast(message, 'error', duration), [addToast])
   const info = useCallback((message, duration) => addToast(message, 'info', duration), [addToast])
+  const warning = useCallback((message, duration) => addToast(message, 'warning', duration), [addToast])
 
   const value = {
     toasts,
@@ -27,12 +35,34 @@ export const ToastProvider = ({ children }) => {
     success,
     error,
     info,
+    warning,
   }
 
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <ToastContainer toasts={toasts} onClose={removeToast} />
+      {/* Toast Container */}
+      <div className="fixed top-4 right-4 z-50 space-y-2 pointer-events-none">
+        {toasts.map(toast => {
+          const bgColor =
+            toast.type === 'success'
+              ? 'bg-green-600'
+              : toast.type === 'error'
+              ? 'bg-red-600'
+              : toast.type === 'warning'
+              ? 'bg-yellow-600'
+              : 'bg-blue-600'
+
+          return (
+            <div
+              key={toast.id}
+              className={`${bgColor} text-white px-4 py-3 rounded-lg shadow-lg pointer-events-auto animate-slide-in`}
+            >
+              {toast.message}
+            </div>
+          )
+        })}
+      </div>
     </ToastContext.Provider>
   )
 }

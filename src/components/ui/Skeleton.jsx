@@ -1,14 +1,10 @@
-const Skeleton = ({
-  width = 'w-full',
-  height = 'h-4',
-  className = '',
-  circle = false,
-}) => {
-  const baseStyles = 'bg-slate-200 dark:bg-slate-700 animate-pulse'
-  const circleStyles = circle ? 'rounded-full' : 'rounded-md'
-
+const Skeleton = ({ className = '', count = 1 }) => {
   return (
-    <div className={`${baseStyles} ${circleStyles} ${width} ${height} ${className}`} />
+    <div className={`bg-slate-200 dark:bg-slate-700 rounded animate-pulse ${className}`}>
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="h-4 mb-2 last:mb-0" />
+      ))}
+    </div>
   )
 }
 
